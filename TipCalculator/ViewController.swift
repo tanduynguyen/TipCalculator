@@ -19,8 +19,18 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        tipLabel.text = "$0.00"
-        totalLabel.text = "$0.00"
+        
+        setupTipControl()
+        setupBillField()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        Configuration.saveBillAmount(billField.text!)
+    }
+    
+    func setupTipControl() {
         
         var index = 0
         tipControl.removeAllSegments()
@@ -31,15 +41,14 @@ class ViewController: UIViewController {
         }
         
         tipControl.selectedSegmentIndex = Configuration.loadDefaultSelectedRow()
+    }
+    
+    func setupBillField() {
+        
         billField.text = Configuration.loadBillAmount()
         onEditingChanged(billField)
         billField.becomeFirstResponder()
-    }
-
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        Configuration.saveBillAmount(billField.text!)
+        billField.delegate = self
     }
 
     @IBAction func onEditingChanged(sender: AnyObject) {
@@ -82,3 +91,16 @@ class ViewController: UIViewController {
     }
 }
 
+
+extension ViewController: UITextFieldDelegate {
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
+        let textFieldString = textField.text! as NSString;
+        let newString = textFieldString.stringByReplacingCharactersInRange(range, withString:string)
+        let floatRegEx = "^([0-9]+)?(\\.([0-9]+)?)?$"
+        let floatExPredicate = NSPredicate(format:"SELF MATCHES %@", floatRegEx)
+        
+        return floatExPredicate.evaluateWithObject(newString)
+    }
+}

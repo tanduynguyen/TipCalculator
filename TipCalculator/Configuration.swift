@@ -15,9 +15,9 @@ struct Configuration {
     static let storeBillAmountKey = "storeBillAmountKey"
     
     static func loadDefaultSelectedRow() -> Int{
-    
-    let defaults = NSUserDefaults.standardUserDefaults()
-    
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
         var selectedRow = 0
         if let obj = defaults.objectForKey(Configuration.storePercentageKey) {
             selectedRow = obj as! Int

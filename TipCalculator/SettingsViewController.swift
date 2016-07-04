@@ -11,12 +11,12 @@ import UIKit
 class SettingsViewController: UIViewController {
     
     @IBOutlet weak var percentagePicker: UIPickerView!
-    var selectedRow = 0
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         print("view will appear")
-        percentagePicker.selectRow(Configuration.loadDefaultSelectedRow(), inComponent: 0, animated: true)
+        let selectedRow = Configuration.loadDefaultSelectedRow()
+        percentagePicker.selectRow(selectedRow, inComponent: 0, animated: false)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -27,7 +27,7 @@ class SettingsViewController: UIViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         print("view will disappear")
-        Configuration.saveDefaultSelectedRow(selectedRow)
+        Configuration.saveDefaultSelectedRow(percentagePicker.selectedRowInComponent(0))
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -57,8 +57,6 @@ extension SettingsViewController: UIPickerViewDelegate {
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print("did select row \(row), component \(component)")
-        selectedRow = row
-        
         
     }
 }

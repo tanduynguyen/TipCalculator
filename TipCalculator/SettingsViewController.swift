@@ -27,13 +27,12 @@ class SettingsViewController: UIViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         print("view will disappear")
-        
+        Configuration.saveDefaultSelectedRow(selectedRow)
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         print("view did disappear")
-        Configuration.saveDefaultSelectedRow(selectedRow)
     }
 }
 

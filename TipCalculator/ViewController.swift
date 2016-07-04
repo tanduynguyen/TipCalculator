@@ -32,12 +32,9 @@ class ViewController: UIViewController {
     
     func setupTipControl() {
         
-        var index = 0
         tipControl.removeAllSegments()
-        for var tipPercentage in Configuration.tipPercentages {
-            tipPercentage *= 100
-            tipControl.insertSegmentWithTitle("\(tipPercentage)%", atIndex: index, animated: true)
-            index += 1
+        for (index, tipPercentage) in Configuration.tipPercentages.enumerate() {
+            tipControl.insertSegmentWithTitle("\(tipPercentage * 100)%", atIndex: index, animated: true)
         }
         
         tipControl.selectedSegmentIndex = Configuration.loadDefaultSelectedRow()
